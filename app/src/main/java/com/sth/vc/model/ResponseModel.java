@@ -1,23 +1,14 @@
 package com.sth.vc.model;
 
 public class ResponseModel {
-    private String respCode;
-    private String respMsg;
 
+    private ResponseD d;
 
-    public String getRespCode() {
-        return respCode;
+    public ResponseD getD() {
+        return d;
     }
 
-    public void setRespCode(String respCode) {
-        this.respCode = respCode;
-    }
-
-    public String getRespMsg() {
-        return respMsg;
-    }
-
-    public void setRespMsg(String respMsg) {
-        this.respMsg = respMsg;
+    public void setD(ResponseD d) {
+        this.d = d;
     }
 }
