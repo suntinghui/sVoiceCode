@@ -5,9 +5,11 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.orhanobut.logger.Logger;
 import com.sth.vc.R;
 import com.sth.vc.model.ResponseModel;
@@ -33,6 +35,9 @@ public class UserInfoActivity extends AppCompatActivity {
     @BindView(R.id.userInfoText)
     TextView userInfoText;
 
+    @BindView(R.id.userHeadImageView)
+    ImageView userHeadImageView;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +45,8 @@ public class UserInfoActivity extends AppCompatActivity {
         this.setContentView(R.layout.layout_userinfo);
 
         ButterKnife.bind(this);
+
+
     }
 
     @OnClick(R.id.queryBtn)
@@ -65,6 +72,30 @@ public class UserInfoActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+
+    }
+
+    //@OnClick(R.id.queryBtn)
+    void requestUserInfo2() {
+        Gson gson = new GsonBuilder().setLenient().create();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Contains.HOST)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+        UserInfoService service = retrofit.create(UserInfoService.class);
+
+        Call<ResponseModel> call = service.getUserInfo2("000000", "18500972879");
+        call.enqueue(new Callback<ResponseModel>() {
+            @Override
+            public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
+                Logger.e(response.body().getD().getRespMsg());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseModel> call, Throwable t) {
                 t.printStackTrace();
             }
         });
