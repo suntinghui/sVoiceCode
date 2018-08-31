@@ -3,35 +3,29 @@ package com.sth.vc.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
+import com.sdsmdg.tastytoast.TastyToast;
 import com.sth.vc.R;
 import com.sth.vc.model.LoginReqModel;
 import com.sth.vc.model.ResponseModel;
 import com.sth.vc.service.LoginService;
 import com.sth.vc.util.Contains;
 
-import java.io.IOException;
-import java.util.HashMap;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
     @BindView(R.id.userNameEdit)
     EditText userNameEdit;
@@ -48,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // Logger Init
         Logger.addLogAdapter(new AndroidLogAdapter());
+
     }
 
     @OnClick(R.id.loginBtn)
@@ -76,6 +71,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void requestLogin() {
+        this.showLoading("正在登录");
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Contains.HOST)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -91,14 +87,20 @@ public class LoginActivity extends AppCompatActivity {
                 try {
                     Logger.e(new Gson().toJson(response.body().getD()));
                     Logger.e(response.body().getD().getRespMsg());
+
+                    TastyToast.makeText(getApplicationContext(), "登录成功", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
+
                 } catch (Exception e) {
                     e.printStackTrace();
+                } finally {
+                    hideLoading();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseModel> call, Throwable t) {
                 t.printStackTrace();
+                hideLoading();
             }
         });
 

@@ -50,6 +50,12 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
 
+    // kprogresshud
+    implementation 'com.kaopiz:kprogresshud:1.0.2'
+
+    // tastytoast
+    implementation 'com.sdsmdg.tastytoast:tastytoast:0.1.1'
+
 
 
     testImplementation 'junit:junit:4.12'

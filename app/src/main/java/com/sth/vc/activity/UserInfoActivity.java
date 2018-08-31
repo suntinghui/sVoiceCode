@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.orhanobut.logger.Logger;
@@ -30,7 +31,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class UserInfoActivity extends AppCompatActivity {
+public class UserInfoActivity extends BaseActivity {
 
     @BindView(R.id.userInfoText)
     TextView userInfoText;
@@ -46,7 +47,8 @@ public class UserInfoActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-
+        String url = "http://img0.imgtn.bdimg.com/it/u=4208901261,3558274513&fm=200&gp=0.jpg";
+        Glide.with(this).load(url).into(userHeadImageView);
     }
 
     @OnClick(R.id.queryBtn)
